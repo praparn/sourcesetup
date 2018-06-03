@@ -44,5 +44,18 @@ chmod +x /usr/local/bin/docker-compose
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 
+#Install Kubernetes Base
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.9.2/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+sudo apt-get update && apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo touch /etc/apt/sources.list.d/kubernetes.list
+#sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial-1.7 main" > /etc/apt/sources.list.d/kubernetes.list'
+sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
+sudo apt-get update
+sudo apt-get install -y kubelet=1.9.2-00 kubeadm=1.9.2-00
+
 #restart
+sudo shutdown -r now
 #reboot

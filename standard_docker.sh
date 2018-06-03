@@ -22,6 +22,28 @@ echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
+#create 1001 user
+useradd -u 1001 --no-create-home 1001
+mkdir -p /var/www && sudo chown 1001:1001 /var/www
+mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
+
+#install docker
+apt-get update
+apt-get install -y curl
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-cache policy docker-ce
+apt-get install -y docker-ce
+
+#install docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+#add ubuntu and 1001 to docker group
+usermod -a -G docker ubuntu
+usermod -a -G docker 1001
+
 #restart
 sudo shutdown -r now
 #reboot
