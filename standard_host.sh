@@ -23,5 +23,4 @@ echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
 #restart
-sudo shutdown -r now
 #reboot

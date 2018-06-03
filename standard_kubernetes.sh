@@ -57,5 +57,4 @@ sudo apt-get update
 sudo apt-get install -y kubelet=1.9.2-00 kubeadm=1.9.2-00
 
 #restart
-sudo shutdown -r now
 #reboot

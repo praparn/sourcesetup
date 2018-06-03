@@ -45,5 +45,4 @@ usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 
 #restart
-sudo shutdown -r now
 #reboot
