@@ -3,7 +3,6 @@
 #Set LC_ALL, LANG
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locate
 echo "LANG=en_US.UTF-8" >> /etc/default/locate
-exit
 
 #tuning sysctl.conf
 echo "net.core.rmem_max = 16777216" >> /etc/sysctl.conf
