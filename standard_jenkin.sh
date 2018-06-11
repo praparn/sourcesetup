@@ -23,6 +23,10 @@ echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
 #Install Jenkins
-
+sudo apt-get install -y default-jre
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install -y jenkins
+sudo systemctl start jenkins
 #restart
 #reboot
