@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-configuration
-  namespace: nginx-ingress
+  namespace: ingress-nginx
   labels:
     app: ingress-nginx
 data:
@@ -21,10 +21,10 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: tcp-services
-  namespace: nginx-ingress
+  namespace: ingress-nginx
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: udp-services
-  namespace: nginx-ingress
+  namespace: ingress-nginx
