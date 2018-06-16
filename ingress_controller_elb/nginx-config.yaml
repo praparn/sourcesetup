@@ -1,5 +1,9 @@
-config_map:
-  data:
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: nginx-ingress
+data:
     client-body-buffer-size: 32M
     hsts: "true"
     proxy-body-size: 1G
