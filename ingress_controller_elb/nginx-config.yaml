@@ -1,8 +1,11 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-config
+  name: nginx-configuration
   namespace: nginx-ingress
+  version: v1
+  labels:
+    app: ingress-nginx
 data:
   client-body-buffer-size: 32M
   hsts: "true"
@@ -14,11 +17,6 @@ data:
   ssl-redirect: "false"
   upstream-keepalive-connections: "50"
   use-proxy-protocol: "true"
-labels:
-  app: ingress-nginx
-name: nginx-configuration
-namespace: ingress-nginx
-version: v1
 ---
 kind: ConfigMap
 apiVersion: v1
