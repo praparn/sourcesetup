@@ -5,17 +5,17 @@ metadata:
   namespace: ingress-nginx
   labels:
     app: ingress-nginx
-  data:
-    client-body-buffer-size: 32M
-    hsts: "true"
-    proxy-body-size: 1G
-    proxy-buffering: "false"
-    proxy-read-timeout: "600"
-    proxy-send-timeout: "600"
-    server-tokens: "false"
-    ssl-redirect: "false"
-    upstream-keepalive-connections: "50"
-    use-proxy-protocol: "true"
+data:
+  client-body-buffer-size: 32M
+  hsts: "true"
+  proxy-body-size: 1G
+  proxy-buffering: "false"
+  proxy-read-timeout: "600"
+  proxy-send-timeout: "600"
+  server-tokens: "false"
+  ssl-redirect: "false"
+  upstream-keepalive-connections: "50"
+  use-proxy-protocol: "true"
 ---
 kind: ConfigMap
 apiVersion: v1
