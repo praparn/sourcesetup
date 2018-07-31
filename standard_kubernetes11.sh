@@ -50,7 +50,7 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo touch /etc/apt/sources.list.d/kubernetes.list 
 sudo bash -c echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install -y kubectl=1.11.0-00 kubelet=1.11.0-00 kubeadm=1.11.0-00 kubectl=1.11.0-00 kubernetes-cni=1.11.0-00
+sudo apt-get install -y kubectl kubelet kubeadm kubectl kubernetes-cni
 
 #restart
 #reboot
