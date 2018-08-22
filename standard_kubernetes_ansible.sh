@@ -24,6 +24,7 @@ echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
 #install ansible
 apt-get update && apt-get install software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible
+cp /usr/local/lib/python2.7/dist-packages/ansible/modules/hashivault/* /usr/lib/python2.7/dist-packages/ansible/modules/*
 swapoff -a
 #restart
 #reboot
