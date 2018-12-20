@@ -36,8 +36,7 @@ unzip CloudWatchMonitoringScripts-1.2.2.zip && \
 rm CloudWatchMonitoringScripts-1.2.2.zip
 
 #add cronjob
-echo "*/5 * * * * /home/ubuntu/MonitoringMemoryandDisk/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used
- --mem-avail --disk-space-util --disk-path=/ --from-cron" | crontab -
+echo "*/5 * * * * /home/ubuntu/MonitoringMemoryandDisk/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used --mem-avail --disk-space-util --disk-path=/ --from-cron" | crontab -
 
 #create 1001 user
 useradd -u 1001 --no-create-home 1001
