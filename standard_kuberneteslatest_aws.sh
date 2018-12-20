@@ -27,6 +27,18 @@ wget https://raw.githubusercontent.com/praparn/sourcesetup/master/standard_ntp.s
 sudo chmod +x ./standard_ntp.sh
 ./standard_ntp.sh
 
+#configure monitor memory on host
+apt-get update && apt-get install -y unzip libwww-perl libdatetime-perl
+mkdir /home/ubuntu/MonitoringMemoryandDisk
+cd /home/ubuntu/MonitoringMemoryandDisk
+curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+unzip CloudWatchMonitoringScripts-1.2.2.zip && \
+rm CloudWatchMonitoringScripts-1.2.2.zip
+
+#add cronjob
+echo "*/5 * * * * /home/ubuntu/MonitoringMemoryandDisk/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used
+ --mem-avail --disk-space-util --disk-path=/ --from-cron" | crontab -
+
 #create 1001 user
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
