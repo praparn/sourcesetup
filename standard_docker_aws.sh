@@ -28,6 +28,7 @@ sudo chmod +x ./standard_ntp.sh
 ./standard_ntp.sh
 
 #create 1001 user
+groupadd docker
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
 mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers

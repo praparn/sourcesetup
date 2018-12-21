@@ -23,6 +23,7 @@ echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
 #create 1001 user
+groupadd docker
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
 mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
