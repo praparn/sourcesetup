@@ -21,6 +21,15 @@ echo "net.ipv4.ip_local_port_range = 2000 65000" >> /etc/sysctl.conf
 echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+#tuning limits.conf
+echo "* soft    nproc    65535" >> /etc/security/limits.conf
+echo "* hard    nproc    65535" >> /etc/security/limits.conf
+echo "* soft    nofile   65535" >> /etc/security/limits.conf
+echo "* hard    nofile   65535" >> /etc/security/limits.conf
+echo "root soft    nproc    65535" >> /etc/security/limits.conf  
+echo "root hard    nproc    65535" >> /etc/security/limits.conf
+echo "root soft    nofile   65535" >> /etc/security/limits.conf
+echo "root hard    nofile   65535" >> /etc/security/limits.conf
 
 #create 1001 user
 groupadd docker
