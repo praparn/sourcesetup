@@ -31,6 +31,11 @@ echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
 
+#Setup NTP
+wget https://raw.githubusercontent.com/praparn/sourcesetup/master/standard_ntp.sh
+sudo chmod +x ./standard_ntp.sh
+./standard_ntp.sh
+
 #create 1001 user
 groupadd docker
 useradd -u 1001 --no-create-home 1001
