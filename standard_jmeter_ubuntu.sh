@@ -47,12 +47,5 @@ apt update && apt install -y \
   gnome-terminal \
   jmeter
 
-sudo mkdir /home/ubuntu/.vnc
-curl https://raw.githubusercontent.com/praparn/sourcesetup/master/xstartup > /home/ubuntu/.vnc/xstartup
-
-#Install Jmeter Binary and Lastest File
-
-curl https://www-us.apache.org/dist//jmeter/binaries/apache-jmeter-5.0.tgz > /home/ubuntu/apache-jmeter-5.0.tgz
-  tar -xf /home/ubuntu/apache-jmeter-5.0.tgz
 #restart
 #reboot
