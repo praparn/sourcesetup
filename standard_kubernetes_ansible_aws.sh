@@ -28,7 +28,7 @@ sudo chmod +x ./standard_ntp.sh
 ./standard_ntp.sh
 
 #install ansible
-apt-get update && apt-get install software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible
+apt-get update && apt-get install -y software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible
 cp -R /usr/local/lib/python2.7/dist-packages/ansible/modules/hashivault /usr/lib/python2.7/dist-packages/ansible/modules/
 chmod -R 755 /usr/lib/python2.7/dist-packages/ansible/modules/hashivault
 swapoff -a
