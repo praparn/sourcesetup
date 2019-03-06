@@ -61,5 +61,9 @@ chmod +x /usr/local/bin/docker-compose
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 
+#add ubuntu and 1001 to docker group
+usermod -a -G docker ubuntu
+usermod -a -G docker 1001
+
 #restart
 #reboot
