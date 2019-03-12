@@ -22,6 +22,16 @@ echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
 
+#tuning limits.conf
+echo "* soft    nproc    65535" >> /etc/security/limits.conf
+echo "* hard    nproc    65535" >> /etc/security/limits.conf
+echo "* soft    nofile   65535" >> /etc/security/limits.conf
+echo "* hard    nofile   65535" >> /etc/security/limits.conf
+echo "root soft    nproc    65535" >> /etc/security/limits.conf  
+echo "root hard    nproc    65535" >> /etc/security/limits.conf
+echo "root soft    nofile   65535" >> /etc/security/limits.conf
+echo "root hard    nofile   65535" >> /etc/security/limits.conf
+
 #install ansible
 apt-get update && apt-get install software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible
 cp -R /usr/local/lib/python2.7/dist-packages/ansible/modules/hashivault /usr/lib/python2.7/dist-packages/ansible/modules/
