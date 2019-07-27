@@ -50,7 +50,7 @@ sudo chmod +x ./standard_ntp.sh
 useradd -u 1001 --no-create-home 1001
 
 #install ansible
-apt-get update && apt-get install -y software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible
+apt-get update && apt-get install -y software-properties-common && apt-add-repository -y ppa:ansible/ansible && apt-get update && apt-get install -y ansible python-netaddr
 swapoff -a
 #restart
 #reboot
