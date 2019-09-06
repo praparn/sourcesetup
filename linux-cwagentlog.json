@@ -1,0 +1,104 @@
+{
+	"agent": {
+		"metrics_collection_interval": 60,
+		"logfile": "/opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log"
+	},
+	"metrics": {
+		"namespace": "CloudWatchAgentLog",
+		"metrics_collected": {
+			"cpu": {
+				"resources": [ "*" ],
+				"measurement": [{
+						"name": "cpu_usage_idle",
+						"rename": "CPU_USAGE_IDLE",
+						"unit": "Percent"
+					},
+					{
+						"name": "cpu_usage_iowait",
+						"rename": "CPU_USAGE_IOWAIT",
+						"unit": "Percent"
+					}
+				],
+				"metrics_collection_interval": 10
+			},
+			"mem": {
+				"measurement": [
+					"mem_used",
+					"mem_total"
+				],
+				"metrics_collection_interval": 1
+			},
+			"disk": {
+            "resources": [
+              "*"
+            ],
+            "measurement": [
+              {"name": "free", "rename": "DISK_FREE", "unit": "Gigabytes"},
+              "total",
+              "used"
+            ],
+             "ignore_file_system_types": [
+              "sysfs", "devtmpfs"
+            ],
+            "metrics_collection_interval": 60
+          },
+          "diskio": {
+            "resources": [
+              "*"
+            ],
+            "measurement": [
+              "reads",
+              "writes",
+              "read_time",
+              "write_time",
+              "io_time"
+            ],
+            "metrics_collection_interval": 60
+          },
+          "swap": {
+            "measurement": [
+              "swap_used",
+              "swap_free",
+              "swap_used_percent"
+            ]
+          }
+		},
+		"append_dimensions": {
+			"InstanceId": "${aws:InstanceId}"
+	},
+	"aggregation_dimensions": [["InstanceId"],[]]
+	},
+	"logs":{
+		"logs_collected": {
+			"files": {
+				"collect_list": [
+					{
+						"file_path": "/opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log",
+						"log_group_name": "CloudWatchAgentLog",
+						"log_stream_name": "{instance_id}",
+						"timezone": "Local"
+					},
+					{
+						"file_path": "/var/log/syslog",
+						"log_group_name": "/var/log/syslog",
+						"log_stream_name": "{instance_id}",
+						"timezone": "Local"
+					},
+					{
+						"file_path": "/var/log/auth.log",
+						"log_group_name": "/var/log/auth",
+						"log_stream_name": "{instance_id}",
+						"timezone": "Local"
+					},
+					{
+						"file_path": "/var/log/kern.log",
+						"log_group_name": "/var/log/kern",
+						"log_stream_name": "{instance_id}",
+						"timezone": "Local"
+					}
+
+				]
+			}
+		}
+	}
+}
