@@ -8,12 +8,12 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
-  - host: control.kuberneteslabthailand.com
-    http:
-      paths:
-      - backend:
-          serviceName: kong-control-plane
-          servicePort: 8001
+#  - host: control.kuberneteslabthailand.com
+#    http:
+#      paths:
+#      - backend:
+#          serviceName: kong-control-plane
+#          servicePort: 8001
   - host: kong.kuberneteslabthailand.com
     http:
       paths:
