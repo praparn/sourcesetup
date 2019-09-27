@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-kong
+  namespace: kong
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  - host: control.kuberneteslabthailand.com
+    http:
+      paths:
+      - backend:
+          serviceName: kong-control-plane
+          servicePort: 8001
+  - host: kong.kuberneteslabthailand.com
+    http:
+      paths:
+      - backend:
+          serviceName: kong-ingress-data-plane
+          servicePort: 8000
+  - host: konga.kuberneteslabthailand.com
+    http:
+      paths:
+      - backend:
+          serviceName: konga-svc
+          servicePort: 1337
