@@ -24,9 +24,8 @@ metadata:
   namespace: kong
 spec:
   ports:
-  - name: kong-proxy
-    port: 1337
-    targetPort: 1337
-    protocol: TCP
+    - port: 1337
+      targetPort: 1337
+      protocol: TCP
   selector:
     app: konga
