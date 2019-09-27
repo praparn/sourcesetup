@@ -20,9 +20,3 @@ spec:
       - backend:
           serviceName: kong-ingress-data-plane
           servicePort: 8000
-  - host: konga.kuberneteslabthailand.com
-    http:
-      paths:
-      - backend:
-          serviceName: konga-svc
-          servicePort: 1337
