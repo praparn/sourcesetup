@@ -44,5 +44,6 @@ spec:
               name: pg-data
       volumes:
         - name: pg-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: aws-ebs-pvc-kong
 
