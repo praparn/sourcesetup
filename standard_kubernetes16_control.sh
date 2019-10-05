@@ -57,7 +57,8 @@ cat > /etc/docker/daemon.json <<EOF
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
-    "max-size": "100m"
+    "max-size": "100m",
+    "max-file": "10"
   },
   "storage-driver": "overlay2"
 }
@@ -76,12 +77,19 @@ chmod +x /usr/local/bin/docker-compose
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 
+#Ensure iptables tools does not use the nftables backend
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+update-alternatives --set arptables /usr/sbin/arptables-legacy
+update-alternatives --set ebtables /usr/sbin/ebtables-legacy
+
 #Install Kubernetes Base
-sudo apt-get update && sudo apt-get install -y apt-transport-https
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-sudo touch /etc/apt/sources.list.d/kubernetes.list 
-echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
 sudo apt-get update
-sudo apt-get install -y kubectl=1.16.0-00 kubelet=1.16.0-00 kubeadm=1.16.0-00 kubectl=1.16.0-00 kubernetes-cni
+sudo apt-get install -y kubectl=1.16.0-00 kubelet=1.16.0-00 kubeadm=1.16.0-00 kubectl=1.16.0-00 kubernetes-cni && apt-mark hold kubelet kubeadm kubectl
 #restart
 #reboot
