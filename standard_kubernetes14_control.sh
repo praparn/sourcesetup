@@ -27,26 +27,12 @@ echo "* soft    nproc    65535" >> /etc/security/limits.conf
 echo "* hard    nproc    65535" >> /etc/security/limits.conf
 echo "* soft    nofile   65535" >> /etc/security/limits.conf
 echo "* hard    nofile   65535" >> /etc/security/limits.conf
-echo "* soft    memlock  unlimited" >> /etc/security/limits.conf
-echo "* hard    memlock  unlimited" >> /etc/security/limits.conf
-
 echo "root soft    nproc    65535" >> /etc/security/limits.conf  
 echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
 
-echo "1001 soft    nproc    65535" >> /etc/security/limits.conf  
-echo "1001 hard    nproc    65535" >> /etc/security/limits.conf
-echo "1001 soft    nofile   65535" >> /etc/security/limits.conf
-echo "1001 hard    nofile   65535" >> /etc/security/limits.conf
-
-#Setup NTP
-wget https://raw.githubusercontent.com/praparn/sourcesetup/master/standard_ntp.sh
-sudo chmod +x ./standard_ntp.sh
-./standard_ntp.sh
-
 #create 1001 user
-groupadd docker
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
 mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
@@ -63,7 +49,7 @@ add-apt-repository \
   $(lsb_release -cs) \
   stable"
 ## Install Docker CE.
-apt-get update && apt-get install -y docker-ce=5:18.09.0~3-0~ubuntu-bionic docker-ce-cli=5:18.09.0~3-0~ubuntu-bionic containerd.io
+apt-get update && apt-get install -y docker-ce=18.06.2~ce~3-0~ubuntu
 
 # Setup daemon.
 cat > /etc/docker/daemon.json <<EOF
@@ -71,8 +57,7 @@ cat > /etc/docker/daemon.json <<EOF
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
-    "max-size": "100m",
-    "max-file": "10"
+    "max-size": "100m"
   },
   "storage-driver": "overlay2"
 }
@@ -85,11 +70,19 @@ systemctl daemon-reload
 systemctl restart docker
 
 #install docker-compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 #add ubuntu and 1001 to docker group
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
+
+#Install Kubernetes Base
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo touch /etc/apt/sources.list.d/kubernetes.list 
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl=1.14.3-00 kubelet=1.14.3-00 kubeadm=1.14.3-00 kubectl=1.14.3-00 kubernetes-cni
 
 #restart
 #reboot
