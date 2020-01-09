@@ -31,8 +31,7 @@ echo "root soft    nproc    65535" >> /etc/security/limits.conf
 echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
-sudo apt-get update && sudo apt-get -y install python3-pip unzip
-pip3 install awscli --upgrade --user
+sudo apt-get update && sudo apt-get -y install awscli unzip
 curl https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip > terraform_0.12.18_linux_amd64.zip && unzip terraform_0.12.18_linux_amd64.zip && sudo install terraform /usr/local/bin/
 #restart
 #reboot
