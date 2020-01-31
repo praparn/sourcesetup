@@ -31,7 +31,7 @@ echo "root soft    nproc    65535" >> /etc/security/limits.conf
 echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
-sudo apt-get update && sudo apt-get -y install python3-pip awscli unzip azure-cli
+sudo apt-get update && sudo apt-get -y install python3-pip awscli unzip
 pip3 install awscli --upgrade --user
 curl https://releases.hashicorp.com/terraform/0.12.20/terraform_0.12.20_linux_amd64.zip > terraform_0.12.20_linux_amd64.zip && unzip terraform_0.12.20_linux_amd64.zip && sudo install terraform /usr/local/bin/
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
