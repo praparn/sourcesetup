@@ -35,6 +35,7 @@ sudo apt-get update && sudo apt-get -y install python3-pip awscli unzip azure-cl
 pip3 install awscli --upgrade --user
 curl https://releases.hashicorp.com/terraform/0.12.20/terraform_0.12.20_linux_amd64.zip > terraform_0.12.20_linux_amd64.zip && unzip terraform_0.12.20_linux_amd64.zip && sudo install terraform /usr/local/bin/
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-snap install doctl
+wget https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz
+tar -xvf doctl-1.37.0-linux-amd64.tar.gz && mv /doctl /usr/local/bin
 #restart
 #reboot
