@@ -31,10 +31,12 @@ echo "root soft    nproc    65535" >> /etc/security/limits.conf
 echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
-sudo apt-get update && sudo apt-get -y install python3-pip awscli unzip
-pip3 install awscli --upgrade --user
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+sudo apt-get update && sudo apt-get -y install python3-pip awscli unzip google-cloud-sdk
 curl https://releases.hashicorp.com/terraform/0.12.20/terraform_0.12.20_linux_amd64.zip > terraform_0.12.20_linux_amd64.zip && unzip terraform_0.12.20_linux_amd64.zip && sudo install terraform /usr/local/bin/
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 curl -L https://github.com/digitalocean/doctl/releases/download/v1.37.0/doctl-1.37.0-linux-amd64.tar.gz > doctl-1.37.0-linux-amd64.tar.gz && tar -xvf doctl-1.37.0-linux-amd64.tar.gz && mv ./doctl /usr/local/bin
+pip3 install awscli --upgrade --user
 #restart
 #reboot
