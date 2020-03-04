@@ -7,6 +7,9 @@ metadata:
     app: konga
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: konga
   template:
     metadata:
       labels:
