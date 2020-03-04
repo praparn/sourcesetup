@@ -5,11 +5,13 @@ metadata:
   namespace: kong
   labels:
     app: konga
+    name: konga
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: konga
+      name: konga
   template:
     metadata:
       labels:
