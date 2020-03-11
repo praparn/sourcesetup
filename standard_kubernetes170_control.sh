@@ -90,6 +90,6 @@ cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubectl=1.16.4-00 kubelet=1.16.4-00 kubeadm=1.16.4-00 kubectl=1.16.4-00 kubernetes-cni && apt-mark hold kubelet kubeadm kubectl
+sudo apt-get install -y kubectl=1.16.4-00 kubelet=1.17.0-00 kubeadm=1.17.0-00 kubectl=1.17.0-00 kubernetes-cni && apt-mark hold kubelet kubeadm kubectl
 #restart
 #reboot
