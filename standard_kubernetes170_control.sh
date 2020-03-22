@@ -49,7 +49,7 @@ add-apt-repository \
   $(lsb_release -cs) \
   stable"
 ## Install Docker CE.
-apt-get update && apt-get install -y docker-ce=5:18.09.9~3-0~ubuntu-bionic docker-ce-cli=5:18.09.9~3-0~ubuntu-bionic containerd.io
+apt-get update && apt-get install -y docker-ce=5:19.03.6~3-0~ubuntu-bionic docker-ce-cli=5:19.03.6~3-0~ubuntu-bionic containerd.io
 
 # Setup daemon.
 cat > /etc/docker/daemon.json <<EOF
@@ -90,6 +90,6 @@ cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubectl=1.16.4-00 kubelet=1.17.0-00 kubeadm=1.17.0-00 kubectl=1.17.0-00 kubernetes-cni && apt-mark hold kubelet kubeadm kubectl
+sudo apt-get install -y kubectl=1.17.0-00 kubelet=1.17.0-00 kubeadm=1.17.0-00 kubectl=1.17.0-00 kubernetes-cni && apt-mark hold kubelet kubeadm kubectl
 #restart
 #reboot
