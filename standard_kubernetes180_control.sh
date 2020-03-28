@@ -50,7 +50,7 @@ add-apt-repository \
   $(lsb_release -cs) \
   stable"
 ## Install Docker CE.
-apt-get update && apt-get install -y docker-ce=5:19.03.6~3-0~ubuntu-bionic docker-ce-cli=5:19.03.6~3-0~ubuntu-bionic containerd.io
+apt-get update && apt-get install -y docker-ce=5:18.09.0~3-0~ubuntu-bionic docker-ce-cli=5:18.09.0~3-0~ubuntu-bionic containerd.io
 
 # Setup daemon.
 cat > /etc/docker/daemon.json <<EOF
