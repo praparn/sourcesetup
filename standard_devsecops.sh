@@ -6,4 +6,6 @@ sudo apt update && apt install -y \
   gnome-settings-daemon \
   metacity \
   nautilus \
-  gnome-terminal
+  gnome-terminal \
+  ettercap-common \
+  wireshark
