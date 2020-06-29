@@ -8,4 +8,5 @@ sudo apt update && apt install -y \
   nautilus \
   gnome-terminal \
   ettercap-common \
-  wireshark
+  wireshark \
+  nast
