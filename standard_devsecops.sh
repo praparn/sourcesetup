@@ -5,6 +5,7 @@ sudo apt update && apt install -y \
   tightvncserver \
   ettercap-common \
   wireshark-gtk \
+  stubby \
   nast \
   software-properties-common \
   apt-transport-https \
