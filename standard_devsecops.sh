@@ -1,5 +1,5 @@
 #Install Base Binary File and Initial Configuration on UltraVNC
-sudo apt update && apt install -y \
+sudo apt update && sudo apt install -y \
   xfce4 \
   xfce4-goodies \
   tightvncserver \
