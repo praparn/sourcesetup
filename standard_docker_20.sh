@@ -88,8 +88,7 @@ systemctl restart docker
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 #add ubuntu and 1001 to docker group
-usermod -a -G docker ubuntu
-usermod -a -G docker 1001
-
+sudo usermod -a -G docker ubuntu
+sudo usermod -a -G docker 1001
 #restart
 #reboot
