@@ -51,15 +51,18 @@ echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:
 curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
 curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.20/xUbuntu_20.04/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers-cri-o.gpg add -
 
+#install k8s
 sudo apt-get update
-sudo apt-get -y install cri-o cri-o-runc apt-transport-https ca-certificates curl
+sudo apt-get -y install cri-o cri-o-runc cri-tools apt-transport-https ca-certificates curl
 sudo systemctl daemon-reload
 sudo systemctl enable crio --now
 sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
 sudo apt-get update
 sudo apt-get install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00
 sudo apt-mark hold kubelet kubeadm kubectl
+
+#configure cggroup
+curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/02-cgroup-manager.conf > /etc/crio/crio.conf.d/02-cgroup-manager.conf
 #restart
 #reboot
