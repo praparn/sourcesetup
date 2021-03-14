@@ -53,7 +53,7 @@ curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:sta
 
 #install k8s
 sudo apt-get update
-sudo apt-get -y install cri-o cri-o-runc cri-tools apt-transport-https ca-certificates curl
+sudo apt-get -y install cri-o cri-o-runc apt-transport-https ca-certificates curl
 sudo systemctl daemon-reload
 sudo systemctl enable crio --now
 sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
