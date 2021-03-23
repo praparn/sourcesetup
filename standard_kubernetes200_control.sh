@@ -18,11 +18,9 @@ echo "net.ipv4.tcp_syn_retries = 2" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_tw_reuse=1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_fin_timeout=15" >> /etc/sysctl.conf
 echo "net.ipv4.ip_local_port_range = 2000 65000" >> /etc/sysctl.conf
-echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
 echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
-echo '1' > /proc/sys/net/ipv4/ip_forward
 
 #tuning limits.conf
 echo "* soft    nproc    65535" >> /etc/security/limits.conf
@@ -39,31 +37,62 @@ useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
 mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 
-#configure prerequisites
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/containerd.conf > /etc/modules-load.d/containerd.conf
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/99-kubernetes-cri.conf > /etc/sysctl.d/99-kubernetes-cri.conf
-sudo modprobe overlay
-sudo modprobe br_netfilter
-sudo sysctl --system
-
-#install containerd
+#install docker
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
-apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-apt install -y containerd
+apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
+### Add Docker’s official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+## Install Docker CE.
+apt-get update && apt-get install -y docker-ce=5:19.03.15~3-0~ubuntu-focal docker-ce-cli=5:19.03.15~3-0~ubuntu-focal containerd.io
 
-# Configure containerd
-mkdir -p /etc/containerd
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/config.toml > /etc/containerd/config.toml
-systemctl restart containerd
+# Setup daemon.
+cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m",
+    "max-file": "10"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
 
+mkdir -p /etc/systemd/system/docker.service.d
+
+# Restart docker.
+systemctl daemon-reload
+systemctl restart docker
+
+#install docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+#add ubuntu and 1001 to docker group
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
+
+#Ensure iptables tools does not use the nftables backend
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+update-alternatives --set arptables /usr/sbin/arptables-legacy
+update-alternatives --set ebtables /usr/sbin/ebtables-legacy
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system
 
 #Install Kubernetes Base
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubectl=1.20.0-00 kubelet=1.20.0-00 kubeadm=1.20.0-00 && apt-mark hold kubelet kubeadm kubectl
-#restart
 #reboot
