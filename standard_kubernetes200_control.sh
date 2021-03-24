@@ -21,6 +21,8 @@ echo "net.ipv4.ip_local_port_range = 2000 65000" >> /etc/sysctl.conf
 echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
+echo "br_netfilter" >> /etc/modules
 
 #tuning limits.conf
 echo "* soft    nproc    65535" >> /etc/security/limits.conf
@@ -41,6 +43,7 @@ mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
 apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
+apt install net-tools
 ### Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
@@ -61,7 +64,6 @@ cat > /etc/docker/daemon.json <<EOF
   "storage-driver": "overlay2"
 }
 EOF
-
 mkdir -p /etc/systemd/system/docker.service.d
 
 # Restart docker.
@@ -75,11 +77,6 @@ chmod +x /usr/local/bin/docker-compose
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 
-#Ensure iptables tools does not use the nftables backend
-update-alternatives --set iptables /usr/sbin/iptables-legacy
-update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-update-alternatives --set arptables /usr/sbin/arptables-legacy
-update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
@@ -94,5 +91,5 @@ sysctl --system
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install -y kubectl=1.20.0-00 kubelet=1.20.0-00 kubeadm=1.20.0-00 && apt-mark hold kubelet kubeadm kubectl
+sudo apt-get install -y kubectl=1.20.5-00 kubelet=1.20.5-00 kubeadm=1.20.5-00 && apt-mark hold kubelet kubeadm kubectl
 #reboot

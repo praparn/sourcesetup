@@ -17,12 +17,12 @@ echo "net.ipv4.tcp_synack_retries = 2" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_syn_retries = 2" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_tw_reuse=1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_fin_timeout=15" >> /etc/sysctl.conf
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 echo "net.ipv4.ip_local_port_range = 2000 65000" >> /etc/sysctl.conf
 echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
 echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
-echo '1' > /proc/sys/net/ipv4/ip_forward
 
 #tuning limits.conf
 echo "* soft    nproc    65535" >> /etc/security/limits.conf
@@ -40,30 +40,33 @@ mkdir -p /var/www && sudo chown 1001:1001 /var/www
 mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 
 #configure prerequisites
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/containerd.conf > /etc/modules-load.d/containerd.conf
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/99-kubernetes-cri.conf > /etc/sysctl.d/99-kubernetes-cri.conf
-sudo modprobe overlay
-sudo modprobe br_netfilter
-sudo sysctl --system
+#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/containerd.conf > /etc/modules-load.d/containerd.conf
+#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/99-kubernetes-cri.conf > /etc/sysctl.d/99-kubernetes-cri.conf
+echo "" > /etc/modules
+echo "ip_vs" >> /etc/modules
+echo "ip_vs_rr" >> /etc/modules
+echo "ip_vs_wrr" >> /etc/modules
+echo "ip_vs_sh" >> /etc/modules
+echo "nf_conntrack_ipv4" >> /etc/modules
+echo "overlay" >> /etc/modules
+echo "br_netfilter" >> /etc/modules
 
 #install containerd
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
-apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
 apt install -y containerd
 
 # Configure containerd
 mkdir -p /etc/containerd
-curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/config.toml > /etc/containerd/config.toml
+containerd config default  /etc/containerd/config.toml
+#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/config.toml > /etc/containerd/config.toml
 systemctl restart containerd
-
-usermod -a -G docker ubuntu
-usermod -a -G docker 1001
 
 #Install Kubernetes Base
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install -y kubectl=1.20.0-00 kubelet=1.20.0-00 kubeadm=1.20.0-00 && apt-mark hold kubelet kubeadm kubectl
+sudo apt-get install -y kubectl=1.20.5-00 kubelet=1.20.5-00 kubeadm=1.20.5-00 && apt-mark hold kubelet kubeadm kubectl
 #restart
 #reboot
