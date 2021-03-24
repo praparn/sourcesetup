@@ -37,11 +37,8 @@ echo "root hard    nofile   65535" >> /etc/security/limits.conf
 #create 1001 user
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
-mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 
-#configure prerequisites
-#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/containerd.conf > /etc/modules-load.d/containerd.conf
-#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/99-kubernetes-cri.conf > /etc/sysctl.d/99-kubernetes-cri.conf
+#configure prerequisites for enable module ipvs, overlay, netfilter
 echo "" > /etc/modules
 echo "ip_vs" >> /etc/modules
 echo "ip_vs_rr" >> /etc/modules
@@ -55,12 +52,11 @@ echo "br_netfilter" >> /etc/modules
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
 apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
-apt install -y containerd
+apt install -y containerd net-tools
 
 # Configure containerd
 mkdir -p /etc/containerd
 containerd config default  /etc/containerd/config.toml
-#curl https://raw.githubusercontent.com/praparn/kubernetes_202104/main/WorkShop_1.1_Install_Kubernetes/config.toml > /etc/containerd/config.toml
 systemctl restart containerd
 
 #Install Kubernetes Base
