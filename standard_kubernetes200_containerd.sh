@@ -65,4 +65,5 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 sudo apt-get update
 sudo apt-get install -y kubectl=1.20.5-00 kubelet=1.20.5-00 kubeadm=1.20.5-00 && apt-mark hold kubelet kubeadm kubectl
 #restart
+sudo shutdown -r now
 #reboot
