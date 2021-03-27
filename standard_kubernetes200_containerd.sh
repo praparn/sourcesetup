@@ -38,6 +38,9 @@ echo "root hard    nofile   65535" >> /etc/security/limits.conf
 useradd -u 1001 --no-create-home 1001
 mkdir -p /var/www && sudo chown 1001:1001 /var/www
 
+#set timezone bangkok
+timedatectl set-timezone Asia/Bangkok
+
 #configure prerequisites for enable module ipvs, overlay, netfilter
 echo "" > /etc/modules
 echo "ip_vs" >> /etc/modules
