@@ -54,7 +54,7 @@ mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 #install docker
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
-apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
 ### Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 ### Add Docker apt repository.
@@ -62,8 +62,11 @@ add-apt-repository \
   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) \
   stable"
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ## Install Docker CE.
-apt-get update && apt-get install -y docker-ce=5:20.10.2~3-0~ubuntu-bionic docker-ce-cli=5:20.10.2~3-0~ubuntu-bionic containerd.io
+apt-get update && apt-get install -y docker-ce=5:20.10.2~3-0~ubuntu-focal docker-ce-cli=5:20.10.2~3-0~ubuntu-focal containerd.io
 
 # Setup daemon.
 cat > /etc/docker/daemon.json <<EOF
