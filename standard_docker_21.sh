@@ -91,4 +91,7 @@ chmod +x /usr/local/bin/docker-compose
 usermod -a -G docker ubuntu
 usermod -a -G docker 1001
 #restart
+#automatic start docker 
+systemctl enable docker.service
+systemctl enable containerd.service
 #reboot
