@@ -66,6 +66,12 @@ sudo apt-get install -y kubectl=1.21.5-00 && apt-mark hold kubectl
 curl -L https://github.com/rancher/rke/releases/download/v1.3.1/rke_linux-amd64 > /home/ubuntu/rke
 chmod +x /home/ubuntu/rke
 
+#install desktop gui
+sudo apt update && apt install -y \
+  tigervnc-standalone-server \
+  ubuntu-gnome-desktop
+
+systemctl set-default multi-user.target
 #restart
 sudo shutdown -r now
 #reboot
