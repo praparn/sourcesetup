@@ -79,7 +79,9 @@ cat > /etc/docker/daemon.json <<EOF
 EOF
 
 mkdir -p /etc/systemd/system/docker.service.d
-
+#add ubuntu and 1001 to docker group
+usermod -a -G docker ubuntu
+usermod -a -G docker 1001
 # Restart docker.
 systemctl daemon-reload
 systemctl restart docker
