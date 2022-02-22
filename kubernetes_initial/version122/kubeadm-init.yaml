@@ -1,0 +1,54 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+bootstrapTokens:
+- groups:
+  - system:bootstrappers:kubeadm:default-node-token
+  ttl: "24h"
+  usages:
+  - authentication
+  - signing
+nodeRegistration:
+  name: "hostnamemaster"
+  kubeletExtraArgs:
+    cloud-provider: aws
+  taints:
+    - key: "node-role.kubernetes.io/master"
+      value: "master"
+      effect: "NoSchedule"
+  ignorePreflightErrors:
+    - IsPrivilegedUser
+  imagePullPolicy: "IfNotPresent"
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+networking:
+  serviceSubnet: "10.96.0.0/12"
+  podSubnet: "192.168.0.0/16"
+  dnsDomain: "cluster.local"
+kubernetesVersion: "v1.22.1"
+controlPlaneEndpoint: "2.2.2.2:6443"
+apiServer:
+  extraArgs:
+    authorization-mode: "Node,RBAC"
+    "feature-gates": "APIServerTracing=true,CPUManagerPolicyOptions=true,ExpandedDNSConfig=true,PodSecurity=true"
+  timeoutForControlPlane: 4m0s
+controllerManager:
+  extraArgs:
+    "node-cidr-mask-size": "20"
+    cloud-provider: aws
+    "feature-gates": "APIServerTracing=true,CPUManagerPolicyOptions=true,ExpandedDNSConfig=true,PodSecurity=true"
+scheduler:
+  extraArgs:
+    "feature-gates": "APIServerTracing=true,CPUManagerPolicyOptions=true,ExpandedDNSConfig=true,PodSecurity=true"
+certificatesDir: "/etc/kubernetes/pki"
+imageRepository: "k8s.gcr.io"
+clusterName: "KubernetesClusterName"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+# kubelet specific options here
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: ipvs
