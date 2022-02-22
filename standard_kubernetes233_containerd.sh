@@ -23,6 +23,7 @@ echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.conf
 echo "fs.file-max = 1000000" >> /etc/sysctl.conf
 echo "vm.swappiness = 0" >> /etc/sysctl.conf
 echo "vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf
+echo "kernel.unprivileged_userns_clone = 0" >> /etc/sysctl.conf
 
 #tuning limits.conf
 echo "* soft    nproc    65535" >> /etc/security/limits.conf
