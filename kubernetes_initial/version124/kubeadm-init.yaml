@@ -31,16 +31,16 @@ controlPlaneEndpoint: "2.2.2.2:6443"
 apiServer:
   extraArgs:
     authorization-mode: "Node,RBAC"
-    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true"
+    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true,CSIVolumeHealth=true"
   timeoutForControlPlane: 4m0s
 controllerManager:
   extraArgs:
     "node-cidr-mask-size": "20"
     cloud-provider: aws
-    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true"
+    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true,CSIVolumeHealth=true"
 scheduler:
   extraArgs:
-    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true"
+    "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true,CSIVolumeHealth=true"
 certificatesDir: "/etc/kubernetes/pki"
 imageRepository: "k8s.gcr.io"
 clusterName: "KubernetesClusterName"
