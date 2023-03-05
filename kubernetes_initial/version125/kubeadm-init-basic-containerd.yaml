@@ -24,7 +24,7 @@ networking:
   serviceSubnet: "10.96.0.0/12"
   podSubnet: "192.168.0.0/16"
   dnsDomain: "cluster.local"
-kubernetesVersion: "v1.24.0"
+kubernetesVersion: "v1.25.0"
 apiServer:
   extraArgs:
     authorization-mode: "Node,RBAC"
@@ -38,7 +38,6 @@ scheduler:
   extraArgs:
     "feature-gates": "APIServerTracing=true,ExpandedDNSConfig=true,CSIVolumeHealth=true"
 certificatesDir: "/etc/kubernetes/pki"
-imageRepository: "k8s.gcr.io"
 clusterName: "kuberneteslab"
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
