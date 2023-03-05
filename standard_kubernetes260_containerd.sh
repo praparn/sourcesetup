@@ -35,9 +35,6 @@ echo "root hard    nproc    65535" >> /etc/security/limits.conf
 echo "root soft    nofile   65535" >> /etc/security/limits.conf
 echo "root hard    nofile   65535" >> /etc/security/limits.conf
 
-#create 1001 user
-useradd -u 1001 --no-create-home 1001
-
 #set timezone bangkok
 timedatectl set-timezone Asia/Bangkok
 
@@ -55,18 +52,20 @@ echo "br_netfilter" >> /etc/modules
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
 
-apt-get update && apt-get install ca-certificates curl gnupg lsb-release
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-mkdir -m 0755 -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-apt update && apt install -y containerd.io net-tools
+apt-get update && apt-get install -y ca-certificates curl gnupg lsb-release
+curl -sL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-keyring.gpg
+add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+#mkdir -m 0755 -p /etc/apt/keyrings (for ubuntu 20.04)
+apt update && apt -y install containerd.io net-tools
+containerd config default                              \
+ | sed 's/SystemdCgroup = false/SystemdCgroup = true/' \
+ | sudo tee /etc/containerd/config.toml
 systemctl restart containerd
 
 #Install Kubernetes Base
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt-get update
-sudo apt-get install -y kubectl=1.26.0-00 kubelet=1.26.0-00 kubeadm=1.26.0-00 && apt-mark hold kubelet kubeadm kubectl
+curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+apt-add-repository -y "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+apt-get update && apt-get install -y kubectl=1.26.0-00 kubelet=1.26.0-00 kubeadm=1.26.0-00 && apt-mark hold kubelet kubeadm kubectl
 #restart
 sudo shutdown -r now
 #reboot
