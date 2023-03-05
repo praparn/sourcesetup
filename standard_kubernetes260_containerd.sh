@@ -54,12 +54,12 @@ echo "br_netfilter" >> /etc/modules
 #install containerd
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
-apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common ipvsadm
-apt install -y containerd net-tools
 
-# Configure containerd
-mkdir -p /etc/containerd
-containerd config default  /etc/containerd/config.toml
+apt-get update && apt-get install ca-certificates curl gnupg lsb-release
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+apt update && apt install -y containerd.io net-tools
 systemctl restart containerd
 
 #Install Kubernetes Base
