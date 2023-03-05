@@ -51,10 +51,6 @@ echo "nf_conntrack_ipv4" >> /etc/modules
 echo "overlay" >> /etc/modules
 echo "br_netfilter" >> /etc/modules
 
-#systemd-based distributions foreignroute ==> For ubuntu22.04
-#sed -i -e "s/#ManageForeignRoutes=yes/ManageForeignRoutes=no/g" /etc/systemd/networkd.conf
-#sed -i -e "s/#ManageForeignRoutingPolicyRules=yes/ManageForeignRoutingPolicyRules=no/g" /etc/systemd/networkd.conf
-
 #install containerd
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
@@ -67,23 +63,10 @@ containerd config default  /etc/containerd/config.toml
 systemctl restart containerd
 
 #Install Kubernetes Base
-mkdir /etc/apt/keyrings && chmod 600 /etc/apt/keyrings
-#curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg (for ubuntu22.04)
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-#echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list (for ubuntu22.04)
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubectl=1.26.0-00 kubelet=1.26.0-00 kubeadm=1.26.0-00 && apt-mark hold kubelet kubeadm kubectl
-
-#Install kubectl convert plugin
-cd ~
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert"
-curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert.sha256"
-echo "$(cat kubectl-convert.sha256) kubectl-convert" | sha256sum --check
-install -o root -g root -m 0755 kubectl-convert /usr/local/bin/kubectl-convert
-#kubectl convert --help
-rm kubectl-convert kubectl-convert.sha256
-
 #restart
 sudo shutdown -r now
 #reboot
