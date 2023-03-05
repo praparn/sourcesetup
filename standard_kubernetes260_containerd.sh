@@ -63,7 +63,6 @@ echo \
 apt-get update && apt-get install -y containerd.io
 rm /etc/containerd/config.toml
 
-
 #Install Kubernetes Base
 curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 #curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg

@@ -8,7 +8,6 @@ bootstrapTokens:
   - authentication
   - signing
 nodeRegistration:
-  criSocket: "/run/containerd/containerd.sock"
   taints:
     - key: "node-role.kubernetes.io/master"
       value: "master"
