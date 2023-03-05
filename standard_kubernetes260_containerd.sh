@@ -51,21 +51,20 @@ echo "nf_conntrack_ipv4" >> /etc/modules
 echo "overlay" >> /etc/modules
 echo "br_netfilter" >> /etc/modules
 
-#systemd-based distributions foreignroute
-sed -i -e "s/#ManageForeignRoutes=yes/ManageForeignRoutes=no/g" /etc/systemd/networkd.conf
-sed -i -e "s/#ManageForeignRoutingPolicyRules=yes/ManageForeignRoutingPolicyRules=no/g" /etc/systemd/networkd.conf
+#systemd-based distributions foreignroute ==> For ubuntu22.04
+#sed -i -e "s/#ManageForeignRoutes=yes/ManageForeignRoutes=no/g" /etc/systemd/networkd.conf
+#sed -i -e "s/#ManageForeignRoutingPolicyRules=yes/ManageForeignRoutingPolicyRules=no/g" /etc/systemd/networkd.conf
 
 #install containerd
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
-apt-get update && apt-get install -y net-tools apt-transport-https ca-certificates curl gnupg software-properties-common ipvsadm lsb-release
-mkdir -m 0755 -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update && apt-get install -y containerd.io
-rm /etc/containerd/config.toml
+apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common ipvsadm
+apt install -y containerd net-tools
+
+# Configure containerd
+mkdir -p /etc/containerd
+containerd config default  /etc/containerd/config.toml
+systemctl restart containerd
 
 #Install Kubernetes Base
 curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
