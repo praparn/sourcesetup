@@ -51,6 +51,10 @@ echo "nf_conntrack_ipv4" >> /etc/modules
 echo "overlay" >> /etc/modules
 echo "br_netfilter" >> /etc/modules
 
+#systemd-based distributions foreignroute
+sed -i -e "s/#ManageForeignRoutes=yes/ManageForeignRoutes=no/g" /etc/systemd/networkd.conf
+sed -i -e "s/#ManageForeignRoutingPolicyRules=yes/ManageForeignRoutingPolicyRules=no/g" /etc/systemd/networkd.conf
+
 #install containerd
 ## Set up the repository:
 ### Install packages to allow apt to use a repository over HTTPS
