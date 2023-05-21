@@ -63,7 +63,7 @@ containerd config default                              \
 systemctl restart containerd
 
 #Install Kubernetes Base
-curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
 apt-add-repository -y "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 apt-get update && apt-get install -y kubectl=1.26.0-00 kubelet=1.26.0-00 kubeadm=1.26.0-00 && apt-mark hold kubelet kubeadm kubectl
 #restart
