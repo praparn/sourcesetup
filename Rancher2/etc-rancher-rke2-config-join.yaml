@@ -1,0 +1,4 @@
+token: my-shared-secret
+    server: https://<ClusterFQDN>:9345
+    tls-san:
+      - <ClusterFQDN>
