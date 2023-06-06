@@ -1,4 +1,4 @@
-FROM haproxy:2.3
+FROM labdocker/haproxy:2.3
 
 # Create a system group and add user to be used by HAProxy
 #RUN groupadd haproxy && useradd -g haproxy haproxy
