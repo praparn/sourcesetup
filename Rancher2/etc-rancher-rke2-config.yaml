@@ -1,3 +1,3 @@
-token: my-shared-secret
+token: <secret>
 tls-san:
   - <ClusterFQDN>
