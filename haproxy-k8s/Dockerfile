@@ -7,4 +7,4 @@ FROM labdocker/haproxy:2.3
 
 COPY haproxy.cfg /usr/local/etc/haproxy/
 
-EXPOSE 443 80
+EXPOSE 443 80 6443 9345
