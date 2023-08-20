@@ -56,8 +56,8 @@ mkdir -p /var/dockers && sudo chown 1001:1001 /var/dockers
 ### Install packages to allow apt to use a repository over HTTPS
 apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg software-properties-common
 ### Add Docker’s official GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg
 chmod a+r /etc/apt/keyrings/docker.gpg
 
 echo \
