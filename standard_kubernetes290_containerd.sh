@@ -68,7 +68,7 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearm
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
 #curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://dl.k8s.io/apt/doc/apt-key.gpg
 #apt-add-repository -y "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-apt-get update && apt-get install -y kubectl=1.29.0-00 kubelet=1.29.0-00 kubeadm=1.29.0-00 && apt-mark hold kubelet kubeadm kubectl
+apt-get update && apt-get install -y kubectl=1.29.0-1.1 kubelet=1.29.0-1.1 kubeadm=1.29.0-1.1 && apt-mark hold kubelet kubeadm kubectl
 #restart
 sudo shutdown -r now
 #reboot
