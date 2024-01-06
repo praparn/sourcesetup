@@ -11,8 +11,6 @@ bootstrapTokens:
 nodeRegistration:
   criSocket: unix:///var/run/containerd/containerd.sock
   name: hostnamemaster
-#  kubeletExtraArgs:
-#    cloud-provider: aws
   taints: null
   imagePullPolicy: IfNotPresent
 localAPIEndpoint:
@@ -31,7 +29,6 @@ apiServer:
 controllerManager:
   extraArgs:
     "node-cidr-mask-size": "20"
-#    cloud-provider: aws
 certificatesDir: "/etc/kubernetes/pki"
 imageRepository: "registry.k8s.io"
 clusterName: "KubernetesClusterName"
