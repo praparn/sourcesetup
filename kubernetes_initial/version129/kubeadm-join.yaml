@@ -10,7 +10,7 @@ discovery:
 kind: JoinConfiguration
 nodeRegistration:
   name: hostname
-  kubeletExtraArgs:
-    cloud-provider: aws
+#  kubeletExtraArgs:
+#    cloud-provider: aws
 controlPlane:
   certificateKey: certkey
