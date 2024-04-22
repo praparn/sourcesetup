@@ -1,0 +1,83 @@
+---mount disk evs---
+fdisk -l ==> Check new disk
+
+----
+[root@ecs-centos ~]# fdiks /dev/vdb
+-bash: fdiks: command not found
+[root@ecs-centos ~]# fdisk /dev/vdb
+Welcome to fdisk (util-linux 2.23.2).
+
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table
+Building a new DOS disklabel with disk identifier 0x704fd420.
+
+Command (m for help): n
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p
+Partition number (1-4, default 1): 
+First sector (2048-20971519, default 2048): 
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-20971519, default 20971519): 
+Using default value 20971519
+Partition 1 of type Linux and of size 10 GiB is set
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+----
+partprobe
+mkfs -t ext4 /dev/vdb1
+mkdir /mountdisk
+mount /dev/vdb1 /mountdisk
+df -kh ==> /dev/vdb1       9.8G   37M  9.2G   1% /mountdisk
+
+
+====Auto mount====
+blkid /dev/vdb1
+    ----result----
+    /dev/vdb1: UUID="3e04663b-b913-4d17-8cf4-de8bbe684ab6" TYPE="ext4" 
+    ----result----
+---mount disk evs---
+---SFS + NFS ----
+linux:
+yum -y install nfs-utils
+yum install bind-utils
+mkdir /nfsmount
+mount -t nfs -o vers=3,timeo=600,nolock 646f666d-4a21-4303-8cb5-a3c263f4733e.sfsturbo.internal:/ /nfsmount
+mount -l
+    ----result----
+    646f666d-4a21-4303-8cb5-a3c263f4733e.sfsturbo.internal:/ on /nfsmount type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,nolock,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=192.168.0.208,mountvers=3,mountport=2049,mountproto=tcp,local_lock=all,addr=192.168.0.208)
+    ----result----
+
+vi /etc/fstab
+    646f666d-4a21-4303-8cb5-a3c263f4733e.sfsturbo.internal:/ /nfsmount nfs vers=3,timeo=600,nolock 0 0
+
+###Windows####
+mount -o nolock -o 646f666d-4a21-4303-8cb5-a3c263f4733e.sfsturbo.internal:/! X:
+
+---
+#Install cloud-eye agent on linux:
+cd /usr/local && curl -k -O https://obs.cn-north-4.myhuaweicloud.com/uniagent-cn-north-4/script/agent_install.sh && bash agent_install.sh
+
+---
+#Test script
+vim test.sh
+#/bin/bash
+a=1
+while true
+do
+a=$(($a+1))
+echo $a
+done
+sh test.sh
+
+---
+
+Mysql Connection:
+mysql --host=190.92.216.183 --user=root --password=passwordQAZWSX@
