@@ -35,7 +35,12 @@ clusterName: "KubernetesClusterName"
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
-# kubelet specific options here
+nodeStatusUpdateFrequency: "10s"
+containerLogMaxFiles: 5    # Maximum number of container logs to retain. 
+containerLogMaxSize: 1Mi   # Change the size of /var/log/containers/<pod-name>/log files size to 1M max.
+maxPods: 110
+serializeImagePulls: false
+rotateCertificates: true
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
