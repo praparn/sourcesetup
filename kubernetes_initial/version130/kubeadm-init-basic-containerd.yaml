@@ -26,8 +26,8 @@ apiServer:
 controllerManager:
   extraArgs:
     "node-cidr-mask-size": "20"
-certificatesDir: /etc/kubernetes/pki
-imageRepository: registry.k8s.io
+certificatesDir: "/etc/kubernetes/pki"
+imageRepository: "registry.k8s.io"
 clusterName: kuberneteslab
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
