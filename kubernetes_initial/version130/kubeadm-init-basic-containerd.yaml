@@ -20,7 +20,7 @@ networking:
   serviceSubnet: 10.96.0.0/12
   podSubnet: 192.168.0.0/16
   dnsDomain: cluster.local
-kubernetesVersion: v1.29.0
+kubernetesVersion: v1.30.0
 apiServer:
   timeoutForControlPlane: 4m0s
 controllerManager:
