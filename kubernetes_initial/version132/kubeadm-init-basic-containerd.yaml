@@ -25,7 +25,8 @@ apiServer:
   timeoutForControlPlane: 4m0s
 controllerManager:
   extraArgs:
-    "node-cidr-mask-size": "20"
+    - name: node-cidr-mask-size
+      value: "20"
 certificatesDir: "/etc/kubernetes/pki"
 imageRepository: "registry.k8s.io"
 clusterName: kuberneteslab
