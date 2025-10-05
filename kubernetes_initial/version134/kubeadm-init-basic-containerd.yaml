@@ -28,6 +28,8 @@ controllerManager:
 certificatesDir: "/etc/kubernetes/pki"
 imageRepository: "registry.k8s.io"
 clusterName: kuberneteslab
+featureGates:
+  - ""
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
